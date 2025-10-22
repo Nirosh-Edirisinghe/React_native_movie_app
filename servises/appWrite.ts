@@ -45,7 +45,7 @@ export const updateSearchCount = async (query: string, movie: Movie) => {
         searchTerm: query,
         movie_id: movie.id,
         count: 1,
-        tittle:movie.title,
+        title:movie.title,
         poster_url: `https://image.tmdb.org/t/p/w500${movie.poster_path}`
       })
     }
@@ -54,3 +54,20 @@ export const updateSearchCount = async (query: string, movie: Movie) => {
     console.error('Appwrite error:', error);
   }
 };
+
+export const getTrendingMovie = async (): Promise<TrendingMovie[] | undefined> =>{
+  try {
+    const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
+      Query.limit(5),
+      Query.orderDesc('count'),
+
+    ]);
+    console.log(result);
+    return result.documents as unknown as TrendingMovie[];
+    
+  } catch (error) {
+    console.log(error);
+    return undefined;
+    
+  }
+}

@@ -16,7 +16,7 @@ const search = () => {
   }), false)
 
   // useEffect(() => {
-    
+
   //   const timeoutId = setTimeout( async () => {
   //     if (searchQuery.trim()) {
   //       await loadMovies();
@@ -28,21 +28,23 @@ const search = () => {
   // }, [searchQuery]);
 
   useEffect(() => {
-  const timeoutId = setTimeout(async () => {
-    if (searchQuery.trim()) {
-      await loadMovies();
-
-      // Only update count after movies are fetched successfully
-      if (movies && movies.length > 0) {
-        await updateSearchCount(searchQuery, movies[0]);
+    const timeoutId = setTimeout(async () => {
+      if (searchQuery.trim()) {
+        await loadMovies();
+      } else {
+        reset();
       }
-    } else {
-      reset();
-    }
-  }, 500);
+    }, 500);
 
-  return () => clearTimeout(timeoutId);
-}, [searchQuery]);
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    // Only update count after movies are fetched successfully
+    if (movies && movies.length > 0) {
+      updateSearchCount(searchQuery, movies[0]);
+    }
+  }, [movies])
 
 
 
@@ -92,11 +94,11 @@ const search = () => {
           </>
         }
         ListEmptyComponent={
-          !loading && ! error ? (
+          !loading && !error ? (
             <View className='mt-10 px-5'>
               <Text className='text-center text-gray-500'>{searchQuery ? 'No movies found' : 'Search for a movies'}</Text>
             </View>
-          ):null
+          ) : null
         }
       />
 
