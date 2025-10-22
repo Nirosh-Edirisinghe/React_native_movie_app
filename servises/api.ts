@@ -24,3 +24,21 @@ export const fetchMovie = async({query}:{query:string}) =>{
 }
 
 // const url = 'https://api.themoviedb.org/3/keyword/keyword_id/movies?include_adult=false&language=en-US&page=1';
+
+export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> => {
+  try {
+    const response = await fetch(`${TMDB_CONFIG.BASE_URL}/movie/${movieId}?api_key=${TMDB_CONFIG.API_KEY}`,{
+      method: 'GET',
+      headers: TMDB_CONFIG.headers,
+    });
+
+    if(!response.ok) throw new Error ('Failed to fetch movie details');
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+    
+  }
+} 
