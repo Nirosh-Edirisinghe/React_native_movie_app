@@ -1,3 +1,28 @@
+# 🎬 Movie Explorer App
+
+A React Native (Expo) mobile app to explore movies easily with features like trending movies, latest releases, movie search, and detailed information pages.
+
+---
+
+## 🚀 Features
+- 🔥 View **Trending Movies**
+- 🆕 Check **Latest Movies**
+- 🔍 **Search** any movie by name
+- 📄 **Movie Detail Page** with full info (rating, budget, overview, etc.)
+- 💾 Save and fetch trending movies using **Appwrite**
+- 🎨 Styled with **Tailwind CSS**
+
+---
+
+## 🛠️ Technologies Used
+- **Expo React Native**
+- **TMDb API** – for fetching movie data
+- **Appwrite** – for saving and retrieving trending movies
+- **Tailwind CSS** – for responsive and clean UI
+- **TypeScript**
+
+---
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
