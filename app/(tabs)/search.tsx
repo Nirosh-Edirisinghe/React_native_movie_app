@@ -3,6 +3,7 @@ import SearchBar from '@/components/SearchBar';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import { fetchMovie } from '@/servises/api';
+import { updateSearchCount } from '@/servises/appWrite';
 import useFetch from '@/servises/useFetch';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, View } from 'react-native';
@@ -14,16 +15,37 @@ const search = () => {
     query: searchQuery
   }), false)
 
+  // useEffect(() => {
+
+  //   const timeoutId = setTimeout( async () => {
+  //     if (searchQuery.trim()) {
+  //       await loadMovies();
+  //     } else {
+  //       reset()
+  //     }
+  //   },500);
+  //   return ()=> clearTimeout(timeoutId);
+  // }, [searchQuery]);
+
   useEffect(() => {
-    const timeoutId = setTimeout( async () => {
+    const timeoutId = setTimeout(async () => {
       if (searchQuery.trim()) {
         await loadMovies();
       } else {
-        reset()
+        reset();
       }
-    },500);
-    return ()=> clearTimeout(timeoutId);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
   }, [searchQuery]);
+
+  useEffect(() => {
+    // Only update count after movies are fetched successfully
+    if (movies && movies.length > 0) {
+      updateSearchCount(searchQuery, movies[0]);
+    }
+  }, [movies])
+
 
 
   return (
@@ -72,11 +94,11 @@ const search = () => {
           </>
         }
         ListEmptyComponent={
-          !loading && ! error ? (
+          !loading && !error ? (
             <View className='mt-10 px-5'>
               <Text className='text-center text-gray-500'>{searchQuery ? 'No movies found' : 'Search for a movies'}</Text>
             </View>
-          ):null
+          ) : null
         }
       />
 
